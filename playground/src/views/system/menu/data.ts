@@ -2,6 +2,8 @@ import type { OnActionClickFn, VxeTableGridOptions } from '#/adapter/vxe-table';
 import type { SystemMenuApi } from '#/api/system/menu';
 
 import { $t } from '#/locales';
+import { MENU } from '#/utils/constants';
+import { op } from '#/utils/permission';
 
 export function getMenuTypeOptions() {
   return [
@@ -90,13 +92,10 @@ export function useColumns(
         },
         name: 'CellOperation',
         options: [
-          {
-            code: 'append',
-            text: '新增下级',
-          },
-          'edit', // 默认的编辑按钮
-          'delete', // 默认的删除按钮
-        ],
+          op(MENU.CREATE, { code: 'append', text: '新增下级' }),
+          op(MENU.UPDATE, 'edit'), // 默认的编辑按钮
+          op(MENU.DELETE, 'delete'), // 默认的删除按钮
+        ].filter(Boolean),
       },
       field: 'operation',
       fixed: 'right',

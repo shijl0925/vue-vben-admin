@@ -1,6 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router';
 
 import { $t } from '#/locales';
+import { MENU, OPERATION, RESOURCE, ROLE, USER } from '#/utils/constants';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -13,11 +14,22 @@ const routes: RouteRecordRaw[] = [
     path: '/system',
     children: [
       {
+        path: '/system/user',
+        name: 'SystemUser',
+        meta: {
+          icon: 'charm:organisation',
+          title: $t('system.user.title'),
+          permission: USER.READ,
+        },
+        component: () => import('#/views/system/user/list.vue'),
+      },
+      {
         path: '/system/role',
         name: 'SystemRole',
         meta: {
           icon: 'mdi:account-group',
           title: $t('system.role.title'),
+          permission: ROLE.READ,
         },
         component: () => import('#/views/system/role/list.vue'),
       },
@@ -27,17 +39,29 @@ const routes: RouteRecordRaw[] = [
         meta: {
           icon: 'mdi:menu',
           title: $t('system.menu.title'),
+          permission: MENU.READ,
         },
         component: () => import('#/views/system/menu/list.vue'),
       },
       {
-        path: '/system/dept',
-        name: 'SystemDept',
+        path: '/system/resource',
+        name: 'SystemResource',
         meta: {
           icon: 'charm:organisation',
-          title: $t('system.dept.title'),
+          title: $t('system.resource.title'),
+          permission: RESOURCE.READ,
         },
-        component: () => import('#/views/system/dept/list.vue'),
+        component: () => import('#/views/system/resource/list.vue'),
+      },
+      {
+        path: '/system/operation',
+        name: 'SystemOperation',
+        meta: {
+          icon: 'ant-design:history-outlined',
+          title: $t('system.operation.name'),
+          permission: OPERATION.READ,
+        },
+        component: () => import('#/views/system/operation/list.vue'),
       },
     ],
   },

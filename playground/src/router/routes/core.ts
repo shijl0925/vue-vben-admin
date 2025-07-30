@@ -20,6 +20,32 @@ const fallbackNotFoundRoute: RouteRecordRaw = {
   path: '/:path(.*)*',
 };
 
+/** 全局403页面 */
+const fallbackForbiddenRoute: RouteRecordRaw = {
+  component: () => import('#/views/_core/fallback/forbidden.vue'),
+  meta: {
+    hideInBreadcrumb: true,
+    hideInMenu: true,
+    hideInTab: true,
+    title: '403',
+  },
+  name: 'FallbackForbidden',
+  path: '/exception/403',
+};
+
+/** 全局500页面 */
+const fallbackServerErrorRoute: RouteRecordRaw = {
+  component: () => import('#/views/_core/fallback/internal-error.vue'),
+  meta: {
+    hideInBreadcrumb: true,
+    hideInMenu: true,
+    hideInTab: true,
+    title: '500',
+  },
+  name: 'FallbackServerError',
+  path: '/exception/500',
+};
+
 /** 基本路由，这些路由是必须存在的 */
 const coreRoutes: RouteRecordRaw[] = [
   /**
@@ -94,4 +120,9 @@ const coreRoutes: RouteRecordRaw[] = [
   },
 ];
 
-export { coreRoutes, fallbackNotFoundRoute };
+export {
+  coreRoutes,
+  fallbackForbiddenRoute,
+  fallbackNotFoundRoute,
+  fallbackServerErrorRoute,
+};

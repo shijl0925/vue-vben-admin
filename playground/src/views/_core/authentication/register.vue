@@ -23,6 +23,39 @@ const formSchema = computed((): VbenFormSchema[] => {
       rules: z.string().min(1, { message: $t('authentication.usernameTip') }),
     },
     {
+      component: 'VbenInput',
+      componentProps: {
+        placeholder: $t('authentication.nicknameTip'),
+      },
+      fieldName: 'nickname',
+      label: $t('authentication.nickname'),
+      rules: z.string().min(1, { message: $t('authentication.nicknameTip') }),
+    },
+    {
+      component: 'VbenInput',
+      componentProps: {
+        placeholder: $t('authentication.emailTip'),
+      },
+      fieldName: 'email',
+      label: $t('authentication.email'),
+      rules: z
+        .string()
+        .min(1, { message: $t('authentication.emailTip') })
+        .email($t('authentication.emailValidErrorTip')),
+    },
+    {
+      component: 'VbenInput',
+      componentProps: {
+        placeholder: $t('authentication.phoneTip'),
+      },
+      fieldName: 'phone',
+      label: $t('authentication.phone'),
+      rules: z
+        .string()
+        .min(1, { message: $t('authentication.phoneTip') })
+        .regex(/^1[3-9]\d{9}$/, $t('authentication.phoneValidErrorTip')),
+    },
+    {
       component: 'VbenInputPassword',
       componentProps: {
         passwordStrength: true,

@@ -6,6 +6,8 @@ import {
 
 import { resetStaticRoutes } from '@vben/utils';
 
+import { hasPermission } from '#/utils/permission';
+
 import { createRouterGuard } from './guard';
 import { routes } from './routes';
 
@@ -33,5 +35,17 @@ const resetRoutes = () => resetStaticRoutes(router, routes);
 
 // 创建路由守卫
 createRouterGuard(router);
+
+router.beforeEach(async (to, _from, next) => {
+  if (to.meta?.permission && !hasPermission(to.meta.permission as string)) {
+    next({
+      name: 'FallbackForbidden',
+      // path: '/exception/403',
+    });
+    return;
+  }
+
+  next();
+});
 
 export { resetRoutes, router };

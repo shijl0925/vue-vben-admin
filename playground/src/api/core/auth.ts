@@ -7,6 +7,13 @@ export namespace AuthApi {
     username?: string;
   }
 
+  /** 注册接口参数 */
+  export interface RegisterParams {
+    confirmPassword?: string;
+    password?: string;
+    username?: string;
+  }
+
   /** 登录接口返回值 */
   export interface LoginResult {
     accessToken: string;
@@ -22,7 +29,16 @@ export namespace AuthApi {
  * 登录
  */
 export async function loginApi(data: AuthApi.LoginParams) {
-  return requestClient.post<AuthApi.LoginResult>('/auth/login', data, {
+  return requestClient.post<AuthApi.LoginResult>('/v1/auth/login', data, {
+    withCredentials: true,
+  });
+}
+
+/**
+ * 注册
+ */
+export async function registerApi(data: AuthApi.RegisterParams) {
+  return requestClient.post('/v1/auth/register', data, {
     withCredentials: true,
   });
 }
@@ -32,7 +48,7 @@ export async function loginApi(data: AuthApi.LoginParams) {
  */
 export async function refreshTokenApi() {
   return baseRequestClient.post<AuthApi.RefreshTokenResult>(
-    '/auth/refresh',
+    '/v1/auth/refresh-token',
     null,
     {
       withCredentials: true,
@@ -44,7 +60,7 @@ export async function refreshTokenApi() {
  * 退出登录
  */
 export async function logoutApi() {
-  return baseRequestClient.post('/auth/logout', null, {
+  return baseRequestClient.post('/v1/auth/logout', null, {
     withCredentials: true,
   });
 }
@@ -53,5 +69,5 @@ export async function logoutApi() {
  * 获取用户权限码
  */
 export async function getAccessCodesApi() {
-  return requestClient.get<string[]>('/auth/codes');
+  return requestClient.get<string[]>('/v1/auth/user/codes');
 }

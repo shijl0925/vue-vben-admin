@@ -2,7 +2,12 @@ import type { RouteRecordRaw } from 'vue-router';
 
 import { mergeRouteModules, traverseTreeValues } from '@vben/utils';
 
-import { coreRoutes, fallbackNotFoundRoute } from './core';
+import {
+  coreRoutes,
+  fallbackForbiddenRoute,
+  fallbackNotFoundRoute,
+  fallbackServerErrorRoute,
+} from './core';
 
 const dynamicRouteFiles = import.meta.glob('./modules/**/*.ts', {
   eager: true,
@@ -27,6 +32,8 @@ const routes: RouteRecordRaw[] = [
   ...coreRoutes,
   ...externalRoutes,
   fallbackNotFoundRoute,
+  fallbackForbiddenRoute,
+  fallbackServerErrorRoute,
 ];
 
 /** 基本路由列表，这些路由不需要进入权限拦截 */

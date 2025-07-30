@@ -3,13 +3,24 @@ import type { OnActionClickFn, VxeTableGridOptions } from '#/adapter/vxe-table';
 import type { SystemRoleApi } from '#/api';
 
 import { $t } from '#/locales';
+import { ROLE } from '#/utils/constants';
+import { hasPermission, op } from '#/utils/permission';
 
+/**
+ * 获取编辑表单的字段配置。
+ */
 export function useFormSchema(): VbenFormSchema[] {
   return [
     {
       component: 'Input',
       fieldName: 'name',
       label: $t('system.role.roleName'),
+      rules: 'required',
+    },
+    {
+      component: 'Input',
+      fieldName: 'code',
+      label: $t('system.role.roleCode'),
       rules: 'required',
     },
     {
@@ -38,15 +49,30 @@ export function useFormSchema(): VbenFormSchema[] {
       label: $t('system.role.setPermissions'),
       modelPropName: 'modelValue',
     },
+    {
+      component: 'Input',
+      fieldName: 'resources',
+      formItemClass: 'items-start',
+      label: $t('system.role.setResources'),
+      modelPropName: 'modelValue',
+    },
   ];
 }
 
+/**
+ * 获取表格搜索表单的字段配置。
+ */
 export function useGridFormSchema(): VbenFormSchema[] {
   return [
     {
       component: 'Input',
       fieldName: 'name',
       label: $t('system.role.roleName'),
+    },
+    {
+      component: 'Input',
+      fieldName: 'code',
+      label: $t('system.role.roleCode'),
     },
     { component: 'Input', fieldName: 'id', label: $t('system.role.id') },
     {
@@ -74,6 +100,11 @@ export function useGridFormSchema(): VbenFormSchema[] {
   ];
 }
 
+/**
+ * 获取表格列展示字段
+ * @param onActionClick
+ * @param onStatusChange
+ */
 export function useColumns<T = SystemRoleApi.SystemRole>(
   onActionClick: OnActionClickFn<T>,
   onStatusChange?: (newStatus: any, row: T) => PromiseLike<boolean | undefined>,
@@ -85,6 +116,11 @@ export function useColumns<T = SystemRoleApi.SystemRole>(
       width: 200,
     },
     {
+      field: 'code',
+      title: $t('system.role.roleCode'),
+      width: 200,
+    },
+    {
       field: 'id',
       title: $t('system.role.id'),
       width: 200,
@@ -92,7 +128,13 @@ export function useColumns<T = SystemRoleApi.SystemRole>(
     {
       cellRender: {
         attrs: { beforeChange: onStatusChange },
-        name: onStatusChange ? 'CellSwitch' : 'CellTag',
+        name:
+          onStatusChange && hasPermission(ROLE.UPDATE)
+            ? 'CellSwitch'
+            : 'CellTag',
+        props: {
+          disabled: !(onStatusChange && hasPermission(ROLE.UPDATE)),
+        },
       },
       field: 'status',
       title: $t('system.role.status'),
@@ -117,6 +159,10 @@ export function useColumns<T = SystemRoleApi.SystemRole>(
           onClick: onActionClick,
         },
         name: 'CellOperation',
+        options: [
+          op(ROLE.UPDATE, 'edit'), // 默认的编辑按钮
+          op(ROLE.DELETE, 'delete'), // 默认的删除按钮
+        ].filter(Boolean),
       },
       field: 'operation',
       fixed: 'right',
