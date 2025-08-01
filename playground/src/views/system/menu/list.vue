@@ -4,6 +4,8 @@ import type {
   VxeTableGridOptions,
 } from '#/adapter/vxe-table';
 
+import { ref } from 'vue';
+
 import { Page, useVbenDrawer } from '@vben/common-ui';
 import { IconifyIcon, Plus } from '@vben/icons';
 import { $t } from '@vben/locales';
@@ -91,7 +93,6 @@ function onCreate() {
 function onAppend(row: SystemMenuApi.SystemMenu) {
   formDrawerApi.setData({ pid: row.id }).open();
 }
-
 function onDelete(row: SystemMenuApi.SystemMenu) {
   const hideLoading = message.loading({
     content: $t('ui.actionMessage.deleting', [row.name]),
@@ -110,12 +111,29 @@ function onDelete(row: SystemMenuApi.SystemMenu) {
       hideLoading();
     });
 }
+
+// 添加状态来跟踪是否全部展开
+const isAllExpanded = ref(false);
+
+// 创建切换函数
+const toggleExpandCollapse = () => {
+  if (isAllExpanded.value) {
+    gridApi.grid?.setAllTreeExpand(false);
+    isAllExpanded.value = false;
+  } else {
+    gridApi.grid?.setAllTreeExpand(true);
+    isAllExpanded.value = true;
+  }
+};
 </script>
 <template>
   <Page auto-content-height>
     <FormDrawer @success="onRefresh" />
     <Grid>
       <template #toolbar-tools>
+        <Button class="mr-2" type="primary" @click="toggleExpandCollapse">
+          {{ isAllExpanded ? '折叠全部' : '展开全部' }}
+        </Button>
         <Button type="primary" @click="onCreate" v-permission="MENU.CREATE">
           <Plus class="size-5" />
           {{ $t('ui.actionTitle.create', [$t('system.menu.name')]) }}
