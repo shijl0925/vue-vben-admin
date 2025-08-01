@@ -1,5 +1,3 @@
-import type { Recordable } from '@vben/types';
-
 import { requestClient } from '#/api/request';
 
 export namespace SystemResourcesApi {
@@ -18,12 +16,9 @@ export namespace SystemResourcesApi {
 /**
  * 获取API列表数据
  */
-async function getResourcesList(params: Recordable<any>) {
+async function getResourcesList() {
   return requestClient.get<Array<SystemResourcesApi.SystemResource>>(
     '/v1/rbac/resources',
-    {
-      params,
-    },
   );
 }
 
