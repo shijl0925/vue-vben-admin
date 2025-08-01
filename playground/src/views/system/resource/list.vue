@@ -5,6 +5,8 @@ import type {
 } from '#/adapter/vxe-table';
 import type { SystemResourcesApi } from '#/api/system/resource';
 
+import { ref } from 'vue';
+
 import { Page, useVbenModal } from '@vben/common-ui';
 import { Plus } from '@vben/icons';
 
@@ -13,10 +15,10 @@ import { Button, message } from 'ant-design-vue';
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { deleteResource, getResourcesList } from '#/api/system/resource';
 import { $t } from '#/locales';
+import { RESOURCE } from '#/utils/constants';
 
 import { useColumns } from './data';
 import Form from './modules/form.vue';
-import { RESOURCE } from '#/utils/constants';
 
 const [FormModal, formModalApi] = useVbenModal({
   connectedComponent: Form,
@@ -128,12 +130,29 @@ const [Grid, gridApi] = useVbenVxeGrid({
 function refreshGrid() {
   gridApi.query();
 }
+
+// 添加状态来跟踪是否全部展开
+const isAllExpanded = ref(false);
+
+// 创建切换函数
+const toggleExpandCollapse = () => {
+  if (isAllExpanded.value) {
+    gridApi.grid?.setAllTreeExpand(false);
+    isAllExpanded.value = false;
+  } else {
+    gridApi.grid?.setAllTreeExpand(true);
+    isAllExpanded.value = true;
+  }
+};
 </script>
 <template>
   <Page auto-content-height>
     <FormModal @success="refreshGrid" />
     <Grid table-title="API列表">
       <template #toolbar-tools>
+        <Button class="mr-2" type="primary" @click="toggleExpandCollapse">
+          {{ isAllExpanded ? '折叠全部' : '展开全部' }}
+        </Button>
         <Button type="primary" @click="onCreate" v-permission="RESOURCE.CREATE">
           <Plus class="size-5" />
           {{ $t('ui.actionTitle.create', [$t('system.resource.name')]) }}
