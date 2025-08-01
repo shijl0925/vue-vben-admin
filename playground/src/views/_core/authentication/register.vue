@@ -7,7 +7,11 @@ import { computed, h, ref } from 'vue';
 import { AuthenticationRegister, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
+import { useAuthStore } from '#/store';
+
 defineOptions({ name: 'Register' });
+
+const authStore = useAuthStore();
 
 const loading = ref(false);
 
@@ -114,9 +118,8 @@ const formSchema = computed((): VbenFormSchema[] => {
   ];
 });
 
-function handleSubmit(value: Recordable<any>) {
-  // eslint-disable-next-line no-console
-  console.log('register submit:', value);
+async function handleSubmit(value: Recordable<any>) {
+  await authStore.authRegister(value);
 }
 </script>
 
