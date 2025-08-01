@@ -10,7 +10,13 @@ import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
 import { notification } from 'ant-design-vue';
 import { defineStore } from 'pinia';
 
-import { getAccessCodesApi, getUserInfoApi, loginApi, logoutApi } from '#/api';
+import {
+  getAccessCodesApi,
+  getUserInfoApi,
+  loginApi,
+  logoutApi,
+  registerApi,
+} from '#/api';
 import { $t } from '#/locales';
 
 import { usePermissionStore } from './permission';
@@ -102,6 +108,31 @@ export const useAuthStore = defineStore('auth', () => {
     });
   }
 
+  async function authRegister(params: Recordable<any>) {
+    try {
+      const resp = await registerApi(params);
+
+      // 检查返回结果，确保注册成功
+      if (resp && resp.status === 'success') {
+        // 注册完成，返回登录页
+        await router.push(LOGIN_PATH);
+
+        notification.success({
+          duration: 5,
+          message: $t('authentication.registerSuccess'),
+        });
+      } else {
+        // 处理注册失败的情况
+        throw new Error(resp?.message || '注册失败');
+      }
+    } catch (error) {
+      // 处理网络错误或API调用失败
+      console.error('注册过程中发生错误:', error);
+      // 处理注册失败的情况
+      throw error;
+    }
+  }
+
   async function fetchUserInfo() {
     let userInfo: null | UserInfo = null;
     userInfo = await getUserInfoApi();
@@ -123,6 +154,7 @@ export const useAuthStore = defineStore('auth', () => {
     authLogin,
     fetchUserInfo,
     loginLoading,
+    authRegister,
     logout,
   };
 });
