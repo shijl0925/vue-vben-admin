@@ -17,6 +17,8 @@
   "edit": "Edit",
   "delete": "Delete",
   "create": "Create",
+  "expand": "Expand All",
+  "collapse": "Collapse All",
   "yes": "Yes",
   "no": "No",
   "showSearchPanel": "Show search panel",

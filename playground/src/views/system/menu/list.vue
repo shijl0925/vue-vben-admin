@@ -132,7 +132,7 @@ const toggleExpandCollapse = () => {
     <Grid>
       <template #toolbar-tools>
         <Button class="mr-2" type="primary" @click="toggleExpandCollapse">
-          {{ isAllExpanded ? '折叠全部' : '展开全部' }}
+          {{ isAllExpanded ? $t('common.collapse') : $t('common.expand') }}
         </Button>
         <Button type="primary" @click="onCreate" v-permission="MENU.CREATE">
           <Plus class="size-5" />
