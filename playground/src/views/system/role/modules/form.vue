@@ -156,17 +156,12 @@ function getNodeClass(node: Recordable<any>) {
             label-field="name"
           >
             <template #node="{ value }">
-              <template  v-if="value && value.type === 'DIRECTORY'">
+              <template v-if="value && value.type === 'DIRECTORY'">
                 {{ $t(value.name) }}
               </template>
               <template v-else>
                 {{
-                  $t(value.name) +
-                  ' (' +
-                  $t(value.method) +
-                  ' ' +
-                  $t(value.path) +
-                  ')'
+                  `${$t(value.name)} (${$t(value.method)} ${$t(value.path)})`
                 }}
               </template>
             </template>
