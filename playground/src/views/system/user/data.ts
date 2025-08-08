@@ -43,7 +43,7 @@ export function useCreateSchema(): VbenFormSchema[] {
     },
     {
       component: 'RadioGroup',
-      fieldName: 'active',
+      fieldName: 'status',
       componentProps: {
         buttonStyle: 'solid',
         options: [
@@ -53,7 +53,7 @@ export function useCreateSchema(): VbenFormSchema[] {
         optionType: 'button',
       },
       defaultValue: 1,
-      label: $t('system.user.active'),
+      label: $t('system.user.status'),
     },
     {
       component: 'ApiSelect',
@@ -101,7 +101,7 @@ export function useSchema(): VbenFormSchema[] {
     },
     {
       component: 'RadioGroup',
-      fieldName: 'active',
+      fieldName: 'status',
       componentProps: {
         buttonStyle: 'solid',
         options: [
@@ -111,7 +111,7 @@ export function useSchema(): VbenFormSchema[] {
         optionType: 'button',
       },
       defaultValue: 1,
-      label: $t('system.user.active'),
+      label: $t('system.user.status'),
     },
     {
       component: 'ApiSelect',
@@ -167,8 +167,8 @@ export function useColumns(
     },
     {
       cellRender: { name: 'CellTag' },
-      field: 'active',
-      title: $t('system.user.active'),
+      field: 'status',
+      title: $t('system.user.status'),
       width: 100,
     },
     {
