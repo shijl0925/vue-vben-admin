@@ -38,7 +38,7 @@ async function updateUser(
   id: string,
   data: Omit<SystemUsersApi.SystemUser, 'id'>,
 ) {
-  return requestClient.put(`/v1/auth/users/${id}/`, data);
+  return requestClient.put(`/v1/auth/users/${id}`, data);
 }
 
 /**
@@ -56,7 +56,7 @@ async function updateUserPassword(id: string, data: Recordable<any>) {
  * @param id 用户 ID
  */
 async function deleteUser(id: string) {
-  return requestClient.delete(`/v1/auth/users/${id}/`);
+  return requestClient.delete(`/v1/auth/users/${id}`);
 }
 
 export { createUser, deleteUser, getUsersList, updateUser, updateUserPassword };
