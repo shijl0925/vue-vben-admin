@@ -42,7 +42,7 @@ async function updateResource(
   id: string,
   data: Omit<SystemResourcesApi.SystemResource, 'id'>,
 ) {
-  return requestClient.put(`/v1/rbac/resources/${id}/`, data);
+  return requestClient.put(`/v1/rbac/resources/${id}`, data);
 }
 
 /**
@@ -50,7 +50,7 @@ async function updateResource(
  * @param id API ID
  */
 async function deleteResource(id: string) {
-  return requestClient.delete(`/v1/rbac/resources/${id}/`);
+  return requestClient.delete(`/v1/rbac/resources/${id}`);
 }
 
 async function getRoutersList() {
