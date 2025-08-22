@@ -5,6 +5,8 @@ import type {
 } from '#/adapter/vxe-table';
 import type { SystemDeptApi } from '#/api/system/dept';
 
+import { ref } from 'vue';
+
 import { Page, useVbenModal } from '@vben/common-ui';
 import { Plus } from '@vben/icons';
 
@@ -13,6 +15,7 @@ import { Button, message } from 'ant-design-vue';
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { deleteDept, getDeptList } from '#/api/system/dept';
 import { $t } from '#/locales';
+import { DEPART } from '#/utils/constants';
 
 import { useColumns } from './data';
 import Form from './modules/form.vue';
@@ -127,13 +130,30 @@ const [Grid, gridApi] = useVbenVxeGrid({
 function refreshGrid() {
   gridApi.query();
 }
+
+// 添加状态来跟踪是否全部展开
+const isAllExpanded = ref(false);
+
+// 创建切换函数
+const toggleExpandCollapse = () => {
+  if (isAllExpanded.value) {
+    gridApi.grid?.setAllTreeExpand(false);
+    isAllExpanded.value = false;
+  } else {
+    gridApi.grid?.setAllTreeExpand(true);
+    isAllExpanded.value = true;
+  }
+};
 </script>
 <template>
   <Page auto-content-height>
     <FormModal @success="refreshGrid" />
     <Grid table-title="部门列表">
       <template #toolbar-tools>
-        <Button type="primary" @click="onCreate">
+        <Button class="mr-2" type="primary" @click="toggleExpandCollapse">
+          {{ isAllExpanded ? $t('common.collapse') : $t('common.expand') }}
+        </Button>
+        <Button type="primary" @click="onCreate" v-permission="DEPART.CREATE">
           <Plus class="size-5" />
           {{ $t('ui.actionTitle.create', [$t('system.dept.name')]) }}
         </Button>
