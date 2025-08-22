@@ -39,6 +39,16 @@ export enum RESOURCE {
 }
 
 /**
+ * 部门管理
+ */
+export enum DEPART {
+  CREATE = 'System:Depart:Create',
+  DELETE = 'System:Depart:Delete',
+  READ = 'System:Depart:List',
+  UPDATE = 'System:Depart:Edit',
+}
+
+/**
  * 操作日志
  */
 export enum OPERATION {
