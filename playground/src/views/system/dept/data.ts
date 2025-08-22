@@ -7,6 +7,8 @@ import type { SystemDeptApi } from '#/api/system/dept';
 import { z } from '#/adapter/form';
 import { getDeptList } from '#/api/system/dept';
 import { $t } from '#/locales';
+import { DEPART } from '#/utils/constants';
+import { op } from '#/utils/permission';
 
 /**
  * 获取编辑表单的字段配置。如果没有使用多语言，可以直接export一个数组常量
@@ -111,17 +113,14 @@ export function useColumns(
         },
         name: 'CellOperation',
         options: [
-          {
-            code: 'append',
-            text: '新增下级',
-          },
-          'edit', // 默认的编辑按钮
-          {
+          op(DEPART.CREATE, { code: 'append', text: '新增下级' }),
+          op(DEPART.UPDATE, 'edit'), // 默认的编辑按钮
+          op(DEPART.DELETE, {
             code: 'delete', // 默认的删除按钮
             disabled: (row: SystemDeptApi.SystemDept) => {
               return !!(row.children && row.children.length > 0);
             },
-          },
+          }),
         ],
       },
       field: 'operation',
