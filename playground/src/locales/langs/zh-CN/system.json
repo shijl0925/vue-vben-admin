@@ -92,7 +92,9 @@
     "enterNewPassword": "请输入新密码",
     "enterConfirmPassword": "请输入确认密码",
     "passwordNotMatch": "密码不一致",
-    "resetPasswordSuccess": "重置密码成功"
+    "resetPasswordSuccess": "重置密码成功",
+    "online": "在线",
+    "offline": "离线"
   },
   "resource": {
     "title": "接口管理",

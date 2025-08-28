@@ -173,6 +173,8 @@ export function useColumns(
       field: 'username',
       title: $t('system.user.username'),
       width: 200,
+      // 使用自定义插槽显示用户名和在线状态徽标
+      slots: { default: 'username_default' },
     },
     {
       field: 'nickName',

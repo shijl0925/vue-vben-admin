@@ -91,7 +91,9 @@
     "enterNewPassword": "Please enter new password",
     "enterConfirmPassword": "Please enter confirm password",
     "passwordNotMatch": "Password not match",
-    "resetPasswordSuccess": "Reset password success"
+    "resetPasswordSuccess": "Reset password success",
+    "online": "Online",
+    "offline": "Offline"
   },
   "resource": {
     "title": "API Management",

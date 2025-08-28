@@ -8,7 +8,7 @@ import type { SystemUsersApi } from '#/api/system/user';
 import { Page, useVbenModal } from '@vben/common-ui';
 import { Plus } from '@vben/icons';
 
-import { Button, message } from 'ant-design-vue';
+import { Button, message, Tooltip } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { deleteUser, getUsersList } from '#/api/system/user';
@@ -156,6 +156,23 @@ function refreshGrid() {
           <Plus class="size-5" />
           {{ $t('ui.actionTitle.create', [$t('system.user.name')]) }}
         </Button>
+      </template>
+      <!-- 添加用户名列的自定义插槽 -->
+      <template #username_default="{ row }">
+        <div class="flex items-center justify-center">
+          <span>{{ row.username }}</span>
+          <Tooltip
+            :title="
+              row.online ? $t('system.user.online') : $t('system.user.offline')
+            "
+            placement="top"
+          >
+            <span
+              class="ml-2 inline-block h-2 w-2 rounded-full"
+              :class="row.online ? 'bg-green-500' : 'bg-gray-400'"
+            ></span>
+          </Tooltip>
+        </div>
       </template>
     </Grid>
   </Page>
