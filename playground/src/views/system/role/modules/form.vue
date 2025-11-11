@@ -14,7 +14,6 @@ import { Spin } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
 import { getMenuList } from '#/api/system/menu';
-import { getResourcesList } from '#/api/system/resource';
 import { createRole, updateRole } from '#/api/system/role';
 import { $t } from '#/locales';
 
@@ -31,9 +30,6 @@ const [Form, formApi] = useVbenForm({
 
 const permissions = ref<DataNode[]>([]);
 const loadingPermissions = ref(false);
-
-const resources = ref<DataNode[]>([]);
-const loadingResources = ref(false);
 
 const id = ref();
 const [Drawer, drawerApi] = useVbenDrawer({
@@ -66,10 +62,6 @@ const [Drawer, drawerApi] = useVbenDrawer({
       if (permissions.value.length === 0) {
         loadPermissions();
       }
-
-      if (resources.value.length === 0) {
-        loadResources();
-      }
     }
   },
 });
@@ -81,16 +73,6 @@ async function loadPermissions() {
     permissions.value = res as unknown as DataNode[];
   } finally {
     loadingPermissions.value = false;
-  }
-}
-
-async function loadResources() {
-  loadingResources.value = true;
-  try {
-    const res = await getResourcesList();
-    resources.value = res as unknown as DataNode[];
-  } finally {
-    loadingResources.value = false;
   }
 }
 
@@ -135,35 +117,6 @@ function getNodeClass(node: Recordable<any>) {
             <template #node="{ value }">
               <IconifyIcon v-if="value.meta.icon" :icon="value.meta.icon" />
               {{ $t(value.meta.title) }}
-            </template>
-          </VbenTree>
-        </Spin>
-      </template>
-      <template #resources="slotProps">
-        <Spin
-          v-if="resources.length > 0"
-          :spinning="loadingResources"
-          wrapper-class-name="w-full"
-        >
-          <VbenTree
-            :tree-data="resources"
-            multiple
-            bordered
-            :default-expanded-level="2"
-            :get-node-class="getNodeClass"
-            v-bind="slotProps"
-            value-field="id"
-            label-field="name"
-          >
-            <template #node="{ value }">
-              <template v-if="value && value.type === 'DIRECTORY'">
-                {{ $t(value.name) }}
-              </template>
-              <template v-else>
-                {{
-                  `${$t(value.name)} (${$t(value.method)} ${$t(value.path)})`
-                }}
-              </template>
             </template>
           </VbenTree>
         </Spin>
