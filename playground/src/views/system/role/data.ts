@@ -49,13 +49,6 @@ export function useFormSchema(): VbenFormSchema[] {
       label: $t('system.role.setPermissions'),
       modelPropName: 'modelValue',
     },
-    {
-      component: 'Input',
-      fieldName: 'resources',
-      formItemClass: 'items-start',
-      label: $t('system.role.setResources'),
-      modelPropName: 'modelValue',
-    },
   ];
 }
 
