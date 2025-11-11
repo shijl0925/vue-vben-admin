@@ -1,7 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router';
 
 import { $t } from '#/locales';
-import { MENU, OPERATION, RESOURCE, ROLE, USER, DEPART } from '#/utils/constants';
+import { MENU, OPERATION, ROLE, USER, DEPART } from '#/utils/constants';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -42,16 +42,6 @@ const routes: RouteRecordRaw[] = [
           permission: MENU.READ,
         },
         component: () => import('#/views/system/menu/list.vue'),
-      },
-      {
-        path: '/system/resource',
-        name: 'SystemResource',
-        meta: {
-          icon: 'mdi:file-document-multiple',
-          title: $t('system.resource.title'),
-          permission: RESOURCE.READ,
-        },
-        component: () => import('#/views/system/resource/list.vue'),
       },
       {
         path: '/system/dept',
