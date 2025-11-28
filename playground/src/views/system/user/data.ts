@@ -4,7 +4,6 @@ import type { VbenFormSchema } from '#/adapter/form';
 import type { OnActionClickFn } from '#/adapter/vxe-table';
 import type { SystemUsersApi } from '#/api/system/user';
 
-import { getDeptList } from '#/api/system/dept';
 import { getRoleList } from '#/api/system/role';
 import { $t } from '#/locales';
 import { USER } from '#/utils/constants';
@@ -71,20 +70,6 @@ export function useCreateSchema(): VbenFormSchema[] {
       fieldName: 'role',
       label: $t('system.role.name'),
     },
-    {
-      component: 'ApiTreeSelect',
-      componentProps: {
-        allowClear: true,
-        api: getDeptList,
-        class: 'w-full',
-        resultField: 'items',
-        labelField: 'name',
-        valueField: 'id',
-        childrenField: 'children',
-      },
-      fieldName: 'dept',
-      label: $t('system.dept.name'),
-    },
   ];
 }
 
@@ -142,20 +127,6 @@ export function useSchema(): VbenFormSchema[] {
       },
       fieldName: 'role',
       label: $t('system.role.name'),
-    },
-    {
-      component: 'ApiTreeSelect',
-      componentProps: {
-        allowClear: true,
-        api: getDeptList,
-        class: 'w-full',
-        resultField: 'items',
-        labelField: 'name',
-        valueField: 'id',
-        childrenField: 'children',
-      },
-      fieldName: 'dept',
-      label: $t('system.dept.name'),
     },
   ];
 }
