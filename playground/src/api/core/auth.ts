@@ -14,14 +14,21 @@ export namespace AuthApi {
     username?: string;
   }
 
+  export interface RefreshTokenParams {
+    refreshToken: string;
+  }
+
   /** 登录接口返回值 */
   export interface LoginResult {
     accessToken: string;
+    refreshToken: string;
   }
 
   export interface RefreshTokenResult {
-    data: string;
-    status: number;
+    // data: string;
+    // status: number;
+    accessToken: string;
+    refreshToken: string;
   }
 }
 
@@ -46,10 +53,10 @@ export async function registerApi(data: AuthApi.RegisterParams) {
 /**
  * 刷新accessToken
  */
-export async function refreshTokenApi() {
+export async function refreshTokenApi(data: AuthApi.RefreshTokenParams) {
   return baseRequestClient.post<AuthApi.RefreshTokenResult>(
     '/v1/auth/refresh-token',
-    null,
+    data,
     {
       withCredentials: true,
     },

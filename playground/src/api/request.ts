@@ -66,7 +66,7 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
       refreshToken,
     });
 
-    const { accessToken: newToken, refreshToken: newRefreshToken } = resp.data.data;
+    const { accessToken: newToken, refreshToken: newRefreshToken } = resp.data;
 
     accessStore.setAccessToken(newToken);
     accessStore.setRefreshToken(newRefreshToken);
